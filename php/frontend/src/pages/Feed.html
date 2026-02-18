@@ -1,0 +1,127 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyber - Feed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles/app.css" />
+</head>
+<body class="page">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <h3>Cyber</h3>
+      <div class="sidebar__user">
+        <div class="avatar avatar--sm" data-user-avatar></div>
+        <div>
+          <div class="sidebar__user-name" data-user-name>Loading...</div>
+          <div class="sidebar__user-handle" data-user-handle>@you</div>
+        </div>
+      </div>
+      <nav>
+        <a class="active" href="Feed.html">Feed</a>
+        <a href="Chat.html">Chat</a>
+        <a href="Profile.html">Profile</a>
+        <a href="Admin.html">Admin</a>
+        <a href="Settings.html">Settings</a>
+        <a href="Login.html" data-logout>Logout</a>
+      </nav>
+      <button class="btn btn--primary" style="width: 100%;">Create post</button>
+    </aside>
+
+    <main>
+      <div class="topbar">
+        <input class="topbar__search" data-search-input placeholder="Search people, tags, or posts" />
+        <button class="btn btn--ghost" id="notifBtn">Notifications</button>
+      </div>
+      <div class="card" id="notificationsPanel" style="display:none; margin-bottom:16px;"></div>
+      <div class="card" id="searchResults" style="display:none; margin-bottom:16px;"></div>
+
+      <section class="story-row" data-story-list></section>
+
+      <section class="feed-grid">
+        <div>
+          <form class="card form-grid" id="postForm" enctype="multipart/form-data">
+            <h3>Create post</h3>
+            <textarea class="input" name="body" rows="3" placeholder="Share something..."></textarea>
+            <input class="input" type="file" name="media" multiple accept="image/*,video/*" />
+            <button class="btn btn--primary" type="submit">Post</button>
+          </form>
+
+          <form class="card form-grid" id="storyForm" enctype="multipart/form-data" style="margin-top: 16px;">
+            <h3>Add story</h3>
+            <input class="input" type="file" name="media" accept="image/*,video/*" required />
+            <button class="btn btn--accent" type="submit">Upload story</button>
+          </form>
+
+          <div data-feed-list style="margin-top: 20px;"></div>
+        </div>
+
+        <aside>
+          <div class="card">
+            <h3>Friend requests</h3>
+            <div id="friendRequests"></div>
+          </div>
+          <div class="card" style="margin-top: 16px;">
+            <h3>People you may know</h3>
+            <div id="suggestionsList"></div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="reportModal">
+    <div class="card modal__panel">
+      <h3>Report content</h3>
+      <label class="label" for="reportReason">Reason</label>
+      <select id="reportReason" class="input">
+        <option value="Spam">Spam</option>
+        <option value="Harassment">Harassment</option>
+        <option value="Hate speech">Hate speech</option>
+        <option value="Impersonation">Impersonation</option>
+        <option value="Nudity">Nudity</option>
+        <option value="Violence">Violence</option>
+        <option value="Other">Other</option>
+      </select>
+      <div style="margin-top:16px; display:flex; gap:10px; justify-content:flex-end;">
+        <button class="btn btn--ghost" id="reportCancel">Cancel</button>
+        <button class="btn btn--accent" id="reportSubmit">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="storyModal">
+    <div class="card modal__panel" style="width:min(520px, 95vw);">
+      <h3 id="storyModalTitle">Story</h3>
+      <div id="storyModalMedia" style="margin-top:12px;"></div>
+      <div id="storyModalMeta" style="margin-top:8px; color:var(--muted);"></div>
+      <form id="storyReplyForm" style="margin-top:12px; display:flex; gap:8px;">
+        <input id="storyReplyInput" class="input" placeholder="Reply to story..." />
+        <button class="btn btn--primary" type="submit">Send</button>
+      </form>
+      <div id="storyReplies" style="margin-top:12px; max-height:180px; overflow:auto;"></div>
+      <div style="margin-top:12px; display:flex; justify-content:flex-end;">
+        <button class="btn btn--ghost" id="storyModalClose">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.CYBER_CONFIG = {
+      apiBaseUrl: 'http://localhost/cyber/php/backend/public/index.php/api',
+      pusherKey: 'PUSHER_KEY',
+      pusherCluster: 'mt1'
+    };
+  </script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/feed.js"></script>
+  <script>
+    window.FeedPage.init();
+  </script>
+</body>
+</html>

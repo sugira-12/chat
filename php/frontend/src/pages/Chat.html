@@ -1,0 +1,118 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyber - Chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles/app.css" />
+</head>
+<body class="page">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <h3>Cyber</h3>
+      <div class="sidebar__user">
+        <div class="avatar avatar--sm" data-user-avatar></div>
+        <div>
+          <div class="sidebar__user-name" data-user-name>Loading...</div>
+          <div class="sidebar__user-handle" data-user-handle>@you</div>
+        </div>
+      </div>
+      <nav>
+        <a href="Feed.html">Feed</a>
+        <a class="active" href="Chat.html">Chat</a>
+        <a href="Profile.html">Profile</a>
+        <a href="Admin.html">Admin</a>
+        <a href="Settings.html">Settings</a>
+        <a href="Login.html" data-logout>Logout</a>
+      </nav>
+      <button class="btn btn--primary" style="width: 100%;" data-new-group>New group</button>
+    </aside>
+
+    <main>
+      <div class="topbar">
+        <input class="topbar__search" id="chatSearchInput" placeholder="Search friends by name or ID..." />
+        <button class="btn btn--ghost" data-new-chat>New message</button>
+      </div>
+
+      <div class="card" id="messageRequestsBox" style="margin-bottom:14px; display:none;"></div>
+      <div class="card" id="activeUsersBox" style="margin-bottom:14px;">
+        <h3>Active now</h3>
+        <div id="activeUsersList"></div>
+      </div>
+
+      <div class="chat-shell">
+        <div class="chat-list" data-chat-list></div>
+
+        <div class="chat-panel">
+          <div class="chat-panel__header">
+            <div>
+              <h3 data-chat-title>Conversation</h3>
+              <span class="badge" data-chat-privacy>E2E Ready</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn--ghost" data-chat-pin>Pin</button>
+              <button class="btn btn--ghost" data-chat-mute>Mute</button>
+              <button class="btn btn--ghost" data-chat-summary>Summarize</button>
+            </div>
+            <div class="typing" data-chat-typing>Typing...</div>
+          </div>
+          <div class="chat-panel__messages" data-chat-messages></div>
+          <div class="chat-reply" id="chatReplyPreview" style="display:none;"></div>
+          <div class="chat-ai" id="chatAiHints"></div>
+          <form class="chat-panel__input" id="chatForm">
+            <input class="input" name="message" placeholder="Type a message..." required />
+            <input type="file" id="chatAttachment" style="display:none;" />
+            <button class="btn btn--ghost" type="button" data-chat-attach>Attach</button>
+            <button class="btn btn--ghost" type="button" data-chat-record>Voice</button>
+            <select class="input" id="chatDisappear" style="max-width:150px;">
+              <option value="0">Keep</option>
+              <option value="3600">1 hour</option>
+              <option value="86400">24 hours</option>
+            </select>
+            <input class="input" id="chatSchedule" type="datetime-local" style="max-width:190px;" />
+            <button class="btn btn--accent" type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal" id="chatUserPicker">
+    <div class="card modal__panel">
+      <h3>Start a chat</h3>
+      <div class="segmented" id="chatSearchScope">
+        <button class="segmented__btn is-active" data-chat-scope="friends" type="button">Friends</button>
+        <button class="segmented__btn" data-chat-scope="all" type="button">Everyone</button>
+      </div>
+      <p class="hint">Message requests are sent when you're not friends.</p>
+      <input id="chatUserSearch" class="input" placeholder="Type friend name or ID" />
+      <div id="chatUserResults" style="margin-top:12px; max-height:280px; overflow:auto;"></div>
+      <div style="margin-top:12px; display:flex; justify-content:flex-end;">
+        <button class="btn btn--ghost" id="chatUserClose">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.CYBER_CONFIG = {
+      apiBaseUrl: 'http://localhost/cyber/php/backend/public/index.php/api',
+      pusherKey: 'PUSHER_KEY',
+      pusherCluster: 'mt1'
+    };
+  </script>
+  <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/chat.js"></script>
+  <script>
+    window.CyberApp.requireAuth().then((user) => {
+      window.CYBER_CONFIG.userId = user.id;
+      window.CyberChat.init();
+    });
+  </script>
+</body>
+</html>

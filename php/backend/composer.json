@@ -1,0 +1,7 @@
+{
+  "name": "cyber/backend",
+  "description": "Cyber Social backend dependencies",
+  "require": {
+    "phpmailer/phpmailer": "^6.9"
+  }
+}

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyber - Confirm Account Change</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles/app.css" />
+</head>
+<body class="page">
+  <main style="max-width:720px; margin:40px auto;">
+    <section class="card" style="padding:30px;">
+      <div class="badge" style="margin-bottom:14px;">Account Security</div>
+      <h2 id="confirmTitle">Confirming your request...</h2>
+      <p id="confirmMessage" style="margin-top:8px;">Please wait while we verify your link.</p>
+
+      <div id="confirmChanges" class="form-grid" style="margin-top:16px; display:none;"></div>
+
+      <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;">
+        <a class="btn btn--primary" href="Login.html">Go to login</a>
+        <a class="btn btn--ghost" href="Settings.html">Open settings</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.CYBER_CONFIG = {
+      apiBaseUrl: 'http://localhost/cyber/php/backend/public/index.php/api',
+      pusherKey: 'PUSHER_KEY',
+      pusherCluster: 'mt1'
+    };
+  </script>
+  <script src="../js/api.js"></script>
+  <script src="../js/confirm-account-change.js"></script>
+</body>
+</html>

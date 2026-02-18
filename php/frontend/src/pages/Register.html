@@ -1,0 +1,83 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyber - Register</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles/app.css" />
+</head>
+<body class="page">
+  <div class="auth-shell">
+    <section class="auth-panel">
+      <div class="badge">Cyber Social</div>
+      <h1>Create your space.</h1>
+      <p>Build a profile, share stories, and message your favorite people.</p>
+      <div class="card" style="margin-top: 24px;">
+        <h3>Profile starter</h3>
+        <p>Add a bio, set your privacy, and follow creators you love.</p>
+      </div>
+    </section>
+
+    <section class="auth-card">
+      <h2>Register</h2>
+      <p>Start your account in seconds.</p>
+      <form id="registerForm" class="form-grid" autocomplete="off">
+        <label class="label" for="name">Full name</label>
+        <input class="input" id="name" name="name" type="text" placeholder="Alex Rider" autocomplete="name" required />
+        <label class="label" for="username">Username</label>
+        <input class="input" id="username" name="username" type="text" placeholder="alexr" autocomplete="username" required />
+        <label class="label" for="email">Email</label>
+        <input class="input" id="email" name="email" type="email" placeholder="you@domain.com" autocomplete="email" required />
+        <label class="label" for="password">Password</label>
+        <input class="input" id="password" name="password" type="password" placeholder="Create a password" autocomplete="new-password" required />
+        <button class="btn btn--accent" type="submit">Create account</button>
+      </form>
+      <p id="registerStatus"></p>
+      <p>Already have an account? <a href="Login.html"><strong>Sign in</strong></a></p>
+    </section>
+  </div>
+
+  <script>
+    window.CYBER_CONFIG = {
+      apiBaseUrl: 'http://localhost/cyber/php/backend/public/index.php/api',
+      pusherKey: 'PUSHER_KEY',
+      pusherCluster: 'mt1'
+    };
+  </script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    if (window.CyberAuth && typeof window.CyberAuth.logout === 'function') {
+      window.CyberAuth.logout();
+    }
+    const form = document.getElementById('registerForm');
+    const status = document.getElementById('registerStatus');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.textContent = 'Creating account...';
+      try {
+        const payload = {
+          name: form.name.value,
+          username: form.username.value,
+          email: form.email.value,
+          password: form.password.value
+        };
+        const data = await window.CyberAuth.register(payload);
+        status.textContent = 'Account created. Redirecting to feed...';
+        form.reset();
+        setTimeout(() => {
+          window.location.href = 'Feed.html';
+        }, 600);
+      } catch (err) {
+        status.textContent = err.error || 'Registration failed';
+      } finally {
+        if (form.password) form.password.value = '';
+      }
+    });
+    window.history.replaceState(null, '', window.location.pathname);
+  </script>
+</body>
+</html>

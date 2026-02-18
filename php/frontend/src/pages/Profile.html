@@ -1,0 +1,294 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyber - Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles/app.css" />
+</head>
+<body class="page">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <h3>Cyber</h3>
+      <div class="sidebar__user">
+        <div class="avatar avatar--sm" data-user-avatar></div>
+        <div>
+          <div class="sidebar__user-name" data-user-name>Loading...</div>
+          <div class="sidebar__user-handle" data-user-handle>@you</div>
+        </div>
+      </div>
+      <nav>
+        <a href="Feed.html">Feed</a>
+        <a href="Chat.html">Chat</a>
+        <a class="active" href="Profile.html">Profile</a>
+        <a href="Admin.html">Admin</a>
+        <a href="Settings.html">Settings</a>
+        <a href="Login.html" data-logout>Logout</a>
+      </nav>
+      <button class="btn btn--primary" style="width: 100%;">Edit profile</button>
+    </aside>
+
+    <main>
+      <section class="profile-cover" data-profile-cover>
+        <div class="profile-header">
+          <img class="avatar avatar--profile" data-profile-avatar alt="Profile avatar" />
+          <div class="profile-header__info">
+            <div class="profile-name-row">
+              <h2 data-profile-name>Profile Name</h2>
+              <span class="badge badge--verified" data-profile-verified style="display:none;">Verified</span>
+            </div>
+            <p data-profile-bio></p>
+            <div class="badge" data-profile-handle>@handle</div>
+            <div class="profile-actions" id="profileActions"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="profile-stats">
+        <div class="card">
+          <h3>Followers</h3>
+          <p data-profile-followers>0</p>
+        </div>
+        <div class="card">
+          <h3>Following</h3>
+          <p data-profile-following>0</p>
+        </div>
+        <div class="card">
+          <h3>Posts</h3>
+          <p data-profile-posts>0</p>
+        </div>
+        <div class="card">
+          <h3>Friends</h3>
+          <p data-profile-friends>0</p>
+        </div>
+      </section>
+
+      <div class="profile-tabs">
+        <button class="profile-tab is-active" data-tab="posts">Posts</button>
+        <button class="profile-tab" data-tab="reels">Reels</button>
+        <button class="profile-tab" data-tab="media">Media</button>
+        <button class="profile-tab" data-tab="tagged">Tagged</button>
+      </div>
+
+      <div class="profile-layout">
+        <aside class="profile-left">
+          <section class="card" id="introCard">
+            <div class="card__row">
+              <h3>Intro</h3>
+              <button class="btn btn--ghost" id="introEditBtn" style="display:none;">Edit</button>
+            </div>
+            <div id="introView"></div>
+            <form id="introForm" class="form-grid" style="display:none; margin-top:12px;">
+              <input class="input" name="workplace" placeholder="Workplace" />
+              <input class="input" name="education" placeholder="Education" />
+              <input class="input" name="hometown" placeholder="Hometown" />
+              <input class="input" name="location" placeholder="Current city" />
+              <input class="input" name="relationship_status" placeholder="Relationship status" />
+              <input class="input" name="pronouns" placeholder="Pronouns" />
+              <input class="input" name="birthday" type="date" />
+              <label><input type="checkbox" name="show_friends" checked /> Show friends</label>
+              <label><input type="checkbox" name="show_followers" checked /> Show followers</label>
+              <label><input type="checkbox" name="show_photos" checked /> Show photos</label>
+              <label><input type="checkbox" name="show_activity" checked /> Show activity</label>
+              <button class="btn btn--primary" type="submit">Save intro</button>
+            </form>
+          </section>
+
+          <section class="card" id="highlightsCard" style="margin-top:16px;">
+            <div class="card__row">
+              <h3>Highlights</h3>
+              <button class="btn btn--ghost" id="highlightToggle" style="display:none;">New</button>
+            </div>
+            <div id="highlightsList" class="profile-mini-grid"></div>
+            <form id="highlightForm" class="form-grid" style="display:none; margin-top:12px;">
+              <input class="input" name="title" placeholder="Highlight title" />
+              <input class="input" name="cover_url" placeholder="Cover URL (optional)" />
+              <button class="btn btn--primary" type="submit">Create</button>
+            </form>
+          </section>
+
+          <section class="card" id="friendsCard" style="margin-top:16px;">
+            <h3>Friends</h3>
+            <div id="friendsMeta" class="hint"></div>
+            <div id="friendsList" class="profile-mini-grid"></div>
+          </section>
+
+          <section class="card" id="suggestionsCard" style="margin-top:16px;">
+            <h3>Suggested people</h3>
+            <div id="suggestionsList" class="profile-mini-grid"></div>
+          </section>
+
+          <section class="card" id="photosCard" style="margin-top:16px;">
+            <h3>Photos</h3>
+            <div id="photosGrid" class="profile-photo-grid"></div>
+          </section>
+
+          <section class="card" id="albumsCard" style="margin-top:16px;">
+            <div class="card__row">
+              <h3>Albums</h3>
+              <button class="btn btn--ghost" id="albumToggle" style="display:none;">New</button>
+            </div>
+            <div id="albumsList" class="profile-mini-grid"></div>
+            <form id="albumForm" class="form-grid" style="display:none; margin-top:12px;">
+              <input class="input" name="title" placeholder="Album title" />
+              <input class="input" name="description" placeholder="Description (optional)" />
+              <input class="input" name="cover_url" placeholder="Cover URL (optional)" />
+              <button class="btn btn--primary" type="submit">Create album</button>
+            </form>
+          </section>
+
+          <section class="card" id="groupsCard" style="margin-top:16px;">
+            <div class="card__row">
+              <h3>Groups</h3>
+              <button class="btn btn--ghost" id="groupToggle" style="display:none;">New</button>
+            </div>
+            <div id="groupsList" class="profile-mini-grid"></div>
+            <form id="groupForm" class="form-grid" style="display:none; margin-top:12px;">
+              <input class="input" name="name" placeholder="Group name" />
+              <input class="input" name="description" placeholder="Description (optional)" />
+              <button class="btn btn--primary" type="submit">Create group</button>
+            </form>
+          </section>
+
+          <section class="card" id="pagesCard" style="margin-top:16px;">
+            <div class="card__row">
+              <h3>Pages</h3>
+              <button class="btn btn--ghost" id="pageToggle" style="display:none;">New</button>
+            </div>
+            <div id="pagesList" class="profile-mini-grid"></div>
+            <form id="pageForm" class="form-grid" style="display:none; margin-top:12px;">
+              <input class="input" name="name" placeholder="Page name" />
+              <input class="input" name="category" placeholder="Category" />
+              <button class="btn btn--primary" type="submit">Create page</button>
+            </form>
+          </section>
+
+          <section class="card" id="eventsCard" style="margin-top:16px;">
+            <div class="card__row">
+              <h3>Events</h3>
+              <button class="btn btn--ghost" id="eventToggle" style="display:none;">New</button>
+            </div>
+            <div id="eventsList" class="profile-mini-grid"></div>
+            <form id="eventForm" class="form-grid" style="display:none; margin-top:12px;">
+              <input class="input" name="title" placeholder="Event title" />
+              <input class="input" name="location" placeholder="Location" />
+              <input class="input" name="starts_at" type="datetime-local" />
+              <input class="input" name="ends_at" type="datetime-local" />
+              <button class="btn btn--primary" type="submit">Create event</button>
+            </form>
+          </section>
+        </aside>
+
+        <section class="profile-right">
+          <section class="card" id="pinnedPosts" style="margin-bottom:16px;"></section>
+
+          <section class="card" id="activityCard" style="margin-bottom:16px;">
+            <h3>Recent activity</h3>
+            <div id="activityList" class="profile-activity"></div>
+          </section>
+
+          <section id="profileTabPosts" class="profile-tab-panel is-visible">
+            <div class="profile-filter">
+              <button class="profile-filter__btn is-active" data-post-filter="all">All</button>
+              <button class="profile-filter__btn" data-post-filter="image">Photos</button>
+              <button class="profile-filter__btn" data-post-filter="video">Videos</button>
+            </div>
+            <div id="postsList"></div>
+          </section>
+
+          <section id="profileTabReels" class="profile-tab-panel">
+            <div id="reelsList" class="profile-media-grid"></div>
+          </section>
+
+          <section id="profileTabMedia" class="profile-tab-panel">
+            <div id="mediaList" class="profile-media-grid"></div>
+          </section>
+
+          <section id="profileTabTagged" class="profile-tab-panel">
+            <div id="taggedList" class="profile-media-grid"></div>
+          </section>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal" id="highlightViewer">
+    <div class="card modal__panel" style="width:min(680px, 95vw);">
+      <div class="card__row">
+        <h3>Highlight</h3>
+        <button class="btn btn--ghost" id="highlightClose">Close</button>
+      </div>
+      <div id="highlightItems" class="profile-media-grid" style="margin-top:12px;"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="albumViewer">
+    <div class="card modal__panel" style="width:min(680px, 95vw);">
+      <div class="card__row">
+        <h3>Album</h3>
+        <button class="btn btn--ghost" id="albumClose">Close</button>
+      </div>
+      <div id="albumItems" class="profile-media-grid" style="margin-top:12px;"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="editProfileModal">
+    <div class="card modal__panel" style="width:min(520px, 95vw);">
+      <h3>Edit profile</h3>
+      <form id="editProfileForm" class="form-grid" style="margin-top:12px;">
+        <input class="input" name="name" placeholder="Name" />
+        <textarea class="input" name="bio" rows="3" placeholder="Bio"></textarea>
+        <input class="input" name="website" placeholder="Website" />
+        <input class="input" name="avatar_url" placeholder="Avatar URL" />
+        <input class="input" name="cover_photo_url" placeholder="Cover photo URL" />
+        <label class="label">Upload avatar</label>
+        <input class="input" name="avatar_file" type="file" accept="image/*" />
+        <label class="label">Upload cover</label>
+        <input class="input" name="cover_file" type="file" accept="image/*" />
+        <div style="display:flex; gap:10px; justify-content:flex-end;">
+          <button class="btn btn--ghost" type="button" id="editProfileClose">Cancel</button>
+          <button class="btn btn--primary" type="submit">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="reportModal">
+    <div class="card modal__panel">
+      <h3>Report user</h3>
+      <label class="label" for="reportReason">Reason</label>
+      <select id="reportReason" class="input">
+        <option value="Spam">Spam</option>
+        <option value="Harassment">Harassment</option>
+        <option value="Hate speech">Hate speech</option>
+        <option value="Impersonation">Impersonation</option>
+        <option value="Nudity">Nudity</option>
+        <option value="Violence">Violence</option>
+        <option value="Other">Other</option>
+      </select>
+      <div style="margin-top:16px; display:flex; gap:10px; justify-content:flex-end;">
+        <button class="btn btn--ghost" id="reportCancel">Cancel</button>
+        <button class="btn btn--accent" id="reportSubmit">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.CYBER_CONFIG = {
+      apiBaseUrl: 'http://localhost/cyber/php/backend/public/index.php/api',
+      pusherKey: 'PUSHER_KEY',
+      pusherCluster: 'mt1'
+    };
+  </script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/profile.js"></script>
+  <script>
+    window.ProfilePage.init();
+  </script>
+</body>
+</html>

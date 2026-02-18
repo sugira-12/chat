@@ -1,0 +1,136 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyber - Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles/app.css" />
+</head>
+<body class="page">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <h3>Cyber Admin</h3>
+      <div class="sidebar__user">
+        <div class="avatar avatar--sm" data-user-avatar></div>
+        <div>
+          <div class="sidebar__user-name" data-user-name>Loading...</div>
+          <div class="sidebar__user-handle" data-user-handle>@you</div>
+        </div>
+      </div>
+      <nav>
+        <a href="Feed.html">Feed</a>
+        <a href="Chat.html">Chat</a>
+        <a href="Profile.html">Profile</a>
+        <a class="active" href="Admin.html">Admin</a>
+        <a href="Settings.html">Settings</a>
+        <a href="Login.html" data-logout>Logout</a>
+      </nav>
+    </aside>
+
+    <main>
+      <div class="topbar">
+        <div class="topbar__search">Admin dashboard</div>
+      </div>
+
+      <section class="profile-stats" id="adminMetrics"></section>
+
+      <section style="margin-top: 20px;">
+        <h3>Users</h3>
+        <div class="card" style="margin-bottom:12px;">
+          <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+            <input id="userSearch" class="input" style="flex:1; min-width:180px;" placeholder="Search name, username, email" />
+            <label>Role
+              <select id="userRole" class="input" style="width:auto;">
+                <option value="all">All</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+              </select>
+            </label>
+            <label>Status
+              <select id="userStatus" class="input" style="width:auto;">
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="suspended">Suspended</option>
+              </select>
+            </label>
+            <button class="btn btn--primary" id="userFilterBtn">Apply</button>
+          </div>
+        </div>
+        <div class="card" id="adminUsers"></div>
+      </section>
+
+      <section style="margin-top: 20px;">
+        <h3>Reports</h3>
+        <div class="card" style="margin-bottom:12px;">
+          <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+            <label>Type
+              <select id="reportType" class="input" style="width:auto;">
+                <option value="all">All</option>
+                <option value="user">User</option>
+                <option value="post">Post</option>
+              </select>
+            </label>
+            <label>Status
+              <select id="reportStatus" class="input" style="width:auto;">
+                <option value="all">All</option>
+                <option value="open">Open</option>
+                <option value="resolved">Resolved</option>
+              </select>
+            </label>
+            <input id="reportSearch" class="input" style="flex:1; min-width:180px;" placeholder="Search reporter, target, reason" />
+            <button class="btn btn--primary" id="reportFilterBtn">Apply</button>
+          </div>
+        </div>
+        <div class="card" id="adminReports"></div>
+      </section>
+
+      <section style="margin-top: 20px;">
+        <h3>Ads</h3>
+        <div class="card" style="margin-bottom:12px;">
+          <form id="adForm" class="form-grid">
+            <label class="label" for="adTitle">Title</label>
+            <input id="adTitle" class="input" required />
+            <label class="label" for="adBody">Body</label>
+            <textarea id="adBody" class="input" rows="3" placeholder="Optional ad copy"></textarea>
+            <label class="label" for="adImageUrl">Image URL</label>
+            <input id="adImageUrl" class="input" placeholder="https://..." />
+            <label class="label" for="adLinkUrl">Link URL</label>
+            <input id="adLinkUrl" class="input" placeholder="https://..." />
+            <label class="label" for="adStartsAt">Starts at</label>
+            <input id="adStartsAt" class="input" type="datetime-local" required />
+            <label class="label" for="adEndsAt">Ends at</label>
+            <input id="adEndsAt" class="input" type="datetime-local" required />
+            <label style="display:flex; align-items:center; gap:10px;">
+              <input type="checkbox" id="adIsActive" checked /> Active
+            </label>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <button class="btn btn--primary" type="submit">Create ad</button>
+              <button class="btn btn--ghost" type="button" id="adRefreshBtn">Refresh</button>
+              <span id="adStatus"></span>
+            </div>
+          </form>
+        </div>
+        <div class="card" id="adminAds"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    window.CYBER_CONFIG = {
+      apiBaseUrl: 'http://localhost/cyber/php/backend/public/index.php/api',
+      pusherKey: 'PUSHER_KEY',
+      pusherCluster: 'mt1'
+    };
+  </script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/admin.js"></script>
+  <script>
+    window.AdminPage.init();
+  </script>
+</body>
+</html>

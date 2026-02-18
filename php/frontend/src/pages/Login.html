@@ -1,0 +1,73 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyber - Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles/app.css" />
+</head>
+<body class="page">
+  <div class="auth-shell">
+    <section class="auth-panel">
+      <div class="badge">Cyber Social</div>
+      <h1>Welcome back.</h1>
+      <p>Log in to your feed, chat instantly, and keep your circles connected.</p>
+      <div class="card" style="margin-top: 24px;">
+        <h3>Launch checklist</h3>
+        <p>1) Verify email 2) Add profile photo 3) Start your first story</p>
+      </div>
+    </section>
+
+    <section class="auth-card">
+      <h2>Sign in</h2>
+      <p>Use your email and password to continue.</p>
+      <form id="loginForm" class="form-grid" autocomplete="off">
+        <label class="label" for="email">Email</label>
+        <input class="input" id="email" name="email" type="email" placeholder="you@domain.com" autocomplete="email" required />
+        <label class="label" for="password">Password</label>
+        <input class="input" id="password" name="password" type="password" placeholder="Password" autocomplete="current-password" required />
+        <button class="btn btn--primary" type="submit">Login</button>
+      </form>
+      <p id="loginStatus"></p>
+      <p>New here? <a href="Register.html"><strong>Create an account</strong></a></p>
+    </section>
+  </div>
+
+  <script>
+    window.CYBER_CONFIG = {
+      apiBaseUrl: 'http://localhost/cyber/php/backend/public/index.php/api',
+      pusherKey: 'PUSHER_KEY',
+      pusherCluster: 'mt1'
+    };
+  </script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    if (window.CyberAuth && typeof window.CyberAuth.logout === 'function') {
+      window.CyberAuth.logout();
+    }
+    const form = document.getElementById('loginForm');
+    const status = document.getElementById('loginStatus');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.textContent = 'Signing in...';
+      try {
+        const email = form.email.value;
+        const password = form.password.value;
+        await window.CyberAuth.login(email, password);
+        status.textContent = 'Success. Redirecting to feed...';
+        form.reset();
+        window.location.href = 'Feed.html';
+      } catch (err) {
+        status.textContent = err.error || 'Login failed';
+      } finally {
+        if (form.password) form.password.value = '';
+      }
+    });
+    window.history.replaceState(null, '', window.location.pathname);
+  </script>
+</body>
+</html>
