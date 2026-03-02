@@ -1,0 +1,19 @@
+ecommerce-website-php.zip
+node_modules/
+client/node_modules/
+server/node_modules/
+server/.env
+client/.env
+client/dist/
+server/.vercel/
+client/.vercel/
+.vercel/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+php/backend/storage/
+php/backend/public/uploads/
+CRPMS/
+docs/
+ecommerce-website-php/
+free hand/
