@@ -29,6 +29,11 @@ app.use(cookieParser());
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
 
+// Convenience: opening the server root in a browser should show something useful.
+app.get('/', (req, res) => {
+  res.redirect('/api/health');
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ ok: true, service: 'cyber-api', time: new Date().toISOString() });
 });
