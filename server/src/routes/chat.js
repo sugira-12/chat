@@ -186,8 +186,7 @@ router.get('/conversations/:id/messages', authRequired, async (req, res) => {
 
   const rows = await query(
     `
-    SELECT m.*, u.username, u.avatar_url,
-      (SELECT JSON_ARRAYAGG(JSON_OBJECT('url', ma.url, 'media_type', ma.media_type, 'thumb_url', ma.thumb_url)) FROM message_attachments ma WHERE ma.message_id = m.id) AS attachments
+    SELECT m.*, u.username, u.avatar_url
     FROM messages m
     JOIN users u ON u.id = m.sender_id
     WHERE m.conversation_id = ?
@@ -199,8 +198,29 @@ router.get('/conversations/:id/messages', authRequired, async (req, res) => {
     [conversationId, cursor, cursor, limit]
   );
 
+  const ids = rows.map((r) => Number(r.id)).filter((n) => Number.isFinite(n) && n > 0);
+  let attachmentsByMessage = {};
+  if (ids.length) {
+    const placeholders = ids.map(() => '?').join(',');
+    const att = await query(
+      `SELECT message_id, media_type, url, thumb_url FROM message_attachments WHERE message_id IN (${placeholders})`,
+      ids
+    );
+    attachmentsByMessage = att.reduce((acc, a) => {
+      const mid = Number(a.message_id);
+      if (!acc[mid]) acc[mid] = [];
+      acc[mid].push({ url: a.url, media_type: a.media_type, thumb_url: a.thumb_url });
+      return acc;
+    }, {});
+  }
+
+  const items = rows.map((m) => ({
+    ...m,
+    attachments: attachmentsByMessage[Number(m.id)] || [],
+  }));
+
   const nextCursor = rows.length === limit ? Math.min(...rows.map((r) => Number(r.id))) : null;
-  res.json({ items: rows, next_cursor: nextCursor });
+  res.json({ items, next_cursor: nextCursor });
 });
 
 router.post('/conversations/:id/messages', authRequired, async (req, res) => {
