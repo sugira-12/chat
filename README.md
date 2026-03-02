@@ -28,7 +28,7 @@ Optional:
 ### 1) MySQL
 
 - Create a database (example: `cyber`)
-- Import schema: `php/backend/database/schema.sql`
+- Import schema: `server/sql/schema.sql` (same schema used by the app)
 
 ### 2) Server
 
